@@ -16,7 +16,8 @@ const productSchema = joi.object({
     Subcategory: joi.string().required(),
     Brand: joi.string().required(),
     colors : joi.string(),
-    size : joi.string()
+    size : joi.string(),
+    isNegotiable : joi.boolean()
 })
 
 const validateProduct = ( req , res, next)=>{

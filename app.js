@@ -33,7 +33,13 @@ app.use(cookieParser())
 app.use(GlobalError)
 app.use(morgan('dev'))
 app.use(express.static(path.join(__dirname , 'uploads')))
-app.use(cors())
+app.use(cors({
+    origin:'http://localhost:5173',
+    methods:['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+    allowedHeaders:['Content-Type','Authorization'],
+    credentials:true
+}))
+app.options('*',cors())
 
 
 await initializeRedisClient()
