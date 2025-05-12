@@ -51,22 +51,28 @@ UserSchema = new mongoose.Schema({
         select : false
     },
     phone:{
-        type:String
+        type:String,
+        default:''
     },
     city:{
-        type:String
+        type:String,
+        default:''
     },
     street:{
-        type:String
+        type:String,
+        default:''
     },
     flat:{
-        type:String
+        type:String,
+        default:''
     },
     country:{
-        type: mongoose.Schema.Types.ObjectId,ref: "Country"
+        type: mongoose.Schema.Types.ObjectId,ref: "Country",
+        default:'680c6f9ba71bc7e1eec6f429'
     },
     description : {
-        type : String
+        type : String,
+        default:''
     },
     followers:{
         type:Number,
@@ -77,7 +83,8 @@ UserSchema = new mongoose.Schema({
         default: 0
     },
     date:{
-        type:String
+        type:String,
+        default:''
     }
 })
 

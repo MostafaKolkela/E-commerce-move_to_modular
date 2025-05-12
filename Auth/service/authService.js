@@ -72,7 +72,7 @@ const login = async(email,password,res)=>{
             user.token = token
             await Repo.saveuser(user);
             const id = user._id
-            return {token,id}
+            return {user}
         }
     throw new AppError("password or Email are incorrect!" , 500)
 }

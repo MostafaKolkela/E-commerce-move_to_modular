@@ -28,7 +28,7 @@ const updateUser = async (Data, userId, file) => {
     if (file) {
         Data.avatar = file.filename;
     }
-    const fields = filterbody(Data, 'firstName', 'lastName', 'email', 'phone', 'city', 'street', 'flat', 'country', 'description', 'avatar')
+    const fields = filterbody(Data, 'firstName', 'lastName', 'email', 'phone', 'city', 'street', 'flat', 'country', 'description', 'avatar','date')
     console.log(fields)
     return await userRepo.findUserByIdAndUpdate(userId, fields)
 }

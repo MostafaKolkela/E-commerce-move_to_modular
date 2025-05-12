@@ -18,8 +18,8 @@ const Register = catchAsync(async(req , res , next)=>{
 })
 
 const login = catchAsync(async( req, res,next)=>{
-    const {token,id} = await authServices.login(req.body.email , req.body.password , res)
-    return res.status(200).json({success : true , msg : "login succssefully",token,id})
+    const {user} = await authServices.login(req.body.email , req.body.password , res)
+    return res.status(200).json({success : true , msg : "login succssefully",user})
 })
 
 
