@@ -3,7 +3,6 @@ const User = require('../../User/model/userModel')
 
 const FindByEmail = async(email)=>{
     const user = await User.findOne({email:email})
-    console.log(user)
     return user
 }
 

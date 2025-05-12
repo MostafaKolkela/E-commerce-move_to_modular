@@ -6,15 +6,15 @@ const userSchema = joi.object({
     lastName : joi.string().required(),
     email : joi.string().email().required(),
     password : joi.string().alphanum().min(3).max(30).pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
-    phone : joi.string(),
-    city : joi.string(),
-    street : joi.string(),
-    flat : joi.string(),
-    country : joi.string(),
-    description : joi.string(),
-    follower : joi.number(),
-    role : joi.string(),
-    date : joi.string()
+    phone : joi.string().allow(''),
+    city : joi.string().allow(''),
+    street : joi.string().allow(''),
+    flat : joi.string().allow(''),
+    country : joi.string().allow(''),
+    description : joi.string().allow(''),
+    follower : joi.number().allow(''),
+    role : joi.string().allow(''),
+    date : joi.string().allow('')
 })
 
 const validateUser = ( req , res, next)=>{
