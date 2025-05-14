@@ -19,32 +19,59 @@ const getcart = async(id) =>{
     throw new AppError ('no cart found for this user!' , 404)
 }
 
-const addToCart = async(productId , quantity,id,sellerId) => {
+// const addToCart = async(productId , quantity,id,sellerId) => {
 
-    let cart = await CartRepo.FindCart(id)
-    if(!cart)cart = await CartRepo.createCart(id)
+//     let cart = await CartRepo.FindCart(id)
+//     if(!cart)cart = await CartRepo.createCart(id)
 
-    const product = await CartRepo.FindProductById(productId)
-    if(!product)throw new AppError('product not found',404)
+//     const product = await CartRepo.FindProductById(productId)
+//     if(!product)throw new AppError('product not found',404)
         
-    const itemexist =  cart.cartItem.find((item) =>{
-        return item.productId == productId;
-    })
+//     const itemexist =  cart.cartItem.find((item) =>{
+//         return item.productId == productId;
+//     })
 
-    if(itemexist)
-        {
-            itemexist.quantity +=quantity
-            itemexist.price = product.price
-            cart.totalPrice = totalprice(cart)
+//     if(itemexist)
+//         {
+//             itemexist.quantity +=quantity
+//             itemexist.price = product.price
+//             cart.totalPrice = totalprice(cart)
+//         }
+
+//     else{
+//         cart.cartItem.push({productId , quantity,price : product.price,sellerId})
+//     }
+//     cart.totalPrice = totalprice(cart)
+//     await CartRepo.saveCart(cart);
+//     return cart
+// }
+
+const addToCart = async(productId, quantity, userId, sellerId) => {
+    let cart = await CartRepo.FindCart(userId);
+    if(!cart) cart = await CartRepo.createCart(userId);
+
+    const product = await CartRepo.FindProductById(productId);
+    if(!product) throw new AppError('product not found', 404);
+    
+    const item = cart.cartItem.find(item => item.productId.toString() === productId);
+
+    if(item) {
+        item.quantity += quantity;
+
+        // ✅ لو مفيش تفاوض شغال، نحدث السعر
+        if (!item.isNegotiated) {
+            item.price = product.price;
+            item.originalPrice = product.price;
         }
-
-    else{
-        cart.cartItem.push({productId , quantity,price : product.price,sellerId})
+    } else {
+        cart.cartItem.push({productId , quantity, price : product.price, sellerId})
     }
-    cart.totalPrice = totalprice(cart)
+
+    cart.totalPrice = totalprice(cart);
     await CartRepo.saveCart(cart);
-    return cart
-}
+    return cart;
+};
+
 
 const removeitem = async (userId , productId)=>{
         const cart = await CartRepo.FindCart(userId)
@@ -76,9 +103,28 @@ const updeteQuantity = async (userId , productId , quantity) =>{
     return cart
 }
 
+const updateCartItemPrice = async (userId, productId, newPrice, negotiationId = null) => {
+    const cart = await CartRepo.FindCart(userId)
+    if (!cart) throw new AppError('No cart found for this user!', 404)
+
+    const item = cart.cartItem.find(item => item.productId._id.toString() === productId)
+    if (!item) throw new AppError('Product not found in cart!', 404)
+
+    item.price = newPrice
+    if (negotiationId) {
+        item.negotiationId = negotiationId
+    }
+
+    cart.totalPrice = totalprice(cart)
+    await CartRepo.saveCart(cart)
+    return cart
+}
+
+
 module.exports = {
     getcart,
     addToCart,
     removeitem,
-    updeteQuantity
+    updeteQuantity,
+    updateCartItemPrice
 }

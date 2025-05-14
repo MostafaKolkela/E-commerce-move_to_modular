@@ -34,7 +34,6 @@ const ProductSchema = new mongoose.Schema({
     Subcategory: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Subcategory",
-        required: true
         },
     img :[ 
         {
@@ -57,7 +56,6 @@ const ProductSchema = new mongoose.Schema({
     Brand: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Brand",
-        required: true
     },
     yourEarn:{
         type : Number
@@ -77,6 +75,12 @@ const ProductSchema = new mongoose.Schema({
     isNegotiable:{
         type : Boolean,
         default : true
+    },
+    averageRate:{
+        type:Number
+    },
+    totalReviews:{
+        type:Number
     }
       
 

@@ -10,4 +10,7 @@ router.route('/:productId')
     .get(controller.getReviews)
     .delete(verifyToken, controller.deleteReview)
 
+router.route('/rates/:productId')
+    .get(controller.getAverageRate)
+
 module.exports = router;

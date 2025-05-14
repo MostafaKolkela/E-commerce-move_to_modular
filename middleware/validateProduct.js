@@ -13,11 +13,12 @@ const productSchema = joi.object({
     sellerId: joi.string().required(),
     yourEarn: joi.number(),
     allowReturn:joi.boolean(),
-    Subcategory: joi.string().required(),
-    Brand: joi.string().required(),
+    Subcategory: joi.string(),
+    Brand: joi.string(),
     colors : joi.string(),
     size : joi.string(),
-    isNegotiable : joi.boolean()
+    isNegotiable : joi.boolean(),
+    rate: joi.number()
 })
 
 const validateProduct = ( req , res, next)=>{

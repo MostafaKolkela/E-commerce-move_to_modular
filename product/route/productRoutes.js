@@ -21,7 +21,7 @@ router.route('/search')
 
 
 router.route('/:id')
-    .get(redisCacheMiddleware(3600), productController.getSingleProduct)
+    .get(productController.getSingleProduct)
     .patch(verifyToken, verifyRole("seller", "admin"), productController.updateProduct)
     .delete(verifyToken, verifyRole("seller", "admin"), productController.DeleteProduct)
 

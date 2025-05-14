@@ -81,6 +81,8 @@ app.use('/api/favorites', favoriteRoutes);
 const reviewRoutes = require('./review/router/reviewRoute.js');
 app.use('/api/reviews', reviewRoutes);
 
+const NegoRoutes = require('./negotiation/routes/negotiationRoute.js');
+app.use('/api/negotiation', NegoRoutes);
 
 app.all('*' , (req,res,next)=>{
     next(new AppError(`can not find ${req.originalUrl} on this server!` ,404))

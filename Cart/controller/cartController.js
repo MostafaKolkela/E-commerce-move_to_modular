@@ -8,7 +8,7 @@ const getcart = catchAsync(async(req , res,next) =>{
 })
 
 const addToCart = catchAsync(async(req , res,next) => {
-    const cart = await CartService.addToCart(req.body.productId , req.body.quantity , req.user._id,req.body.sellerId)
+    const cart = await CartService.addToCart(req.body.productId , req.body.quantity , req.user._id, req.body.sellerId)
     res.status(200).json(cart)
 })
 
@@ -30,9 +30,25 @@ const updeteQuantity = catchAsync(async (req,res,next) =>{
     })
 })
 
+const updateCartItemPrice = catchAsync(async (req, res, next) => {
+    const cart = await CartService.updateCartItemPrice(
+        req.user._id,
+        req.body.productId,
+        req.body.newPrice,
+        req.body.negotiationId
+    )
+    res.status(200).json({
+        status: "success",
+        msg: "Price updated",
+        cart
+    })
+})
+
+
 module.exports = {
     getcart,
     addToCart,
     removeitem,
-    updeteQuantity
+    updeteQuantity,
+    updateCartItemPrice
 }
