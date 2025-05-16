@@ -21,7 +21,7 @@ const Register = async(avatarfile , userData,res)=>{
         lastName,
         email,
         password : hash_pass,
-        avatar : avatarfile ? avatarfile.dataUrl : "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPwA=", // Default base64 encoded blank image
+        avatar : avatarfile ? avatarfile.path.replace(/\\/g, '/') : "uploads/profile.jpg",
         phone,
         city,
         flat,
