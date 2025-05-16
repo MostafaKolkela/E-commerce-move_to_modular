@@ -13,6 +13,9 @@ const cookieParser = require('cookie-parser');
 dotenv.config({path : './config/.env'})
 const path = require('path')
 const cors = require('cors')
+const passport = require('passport');
+require('./config/passport.js');
+const session = require('express-session');
 
 const rate = ratelimit({
     max : 100,
@@ -48,9 +51,17 @@ await initializeRedisClient()
 const productRoutes = require('./product/route/productRoutes')
 app.use('/api/products', productRoutes )
 
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true
+  }));
+  
+  app.use(passport.initialize());
+  app.use(passport.session());
 
 const authRoutes = require('./Auth/route/authRouter')
-app.use('/api/auth' , authRoutes)
+app.use('/auth' , authRoutes)
 
 
 const userRoutes = require('./User/route/userRouter')
@@ -87,6 +98,7 @@ app.use('/api/negotiation', NegoRoutes);
 app.all('*' , (req,res,next)=>{
     next(new AppError(`can not find ${req.originalUrl} on this server!` ,404))
 })
+
 
 app.use((err, req, res, next) => {
     err.statusCode = err.statusCode || 500;

@@ -26,10 +26,9 @@ const getSingleUser = async (id) => {
 
 const updateUser = async (Data, userId, file) => {
     if (file) {
-        Data.avatar = file.filename;
+        Data.avatar = file.dataUrl; // Store the base64 data URL
     }
     const fields = filterbody(Data, 'firstName', 'lastName', 'email', 'phone', 'city', 'street', 'flat', 'country', 'description', 'avatar','date')
-    console.log(fields)
     return await userRepo.findUserByIdAndUpdate(userId, fields)
 }
 

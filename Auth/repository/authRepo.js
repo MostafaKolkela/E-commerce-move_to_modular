@@ -11,7 +11,12 @@ const saveuser = async(userData)=>{
     return await user.save()
 }
 
+const updateById = async (userId, updateData) => {
+  return await User.findByIdAndUpdate(userId, updateData, { new: true });
+};
+
 module.exports = {
     FindByEmail,
-    saveuser
+    saveuser,
+    updateById
 }

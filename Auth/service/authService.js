@@ -5,6 +5,7 @@ const catchAsync = require('../../utils/catchAsync')
 const generateToken = require('../../utils/GenerateToken')
 const sendMail = require('../../utils/mailer')
 const multer = require('../../middleware/multer')
+const userRepository = require('../repository/authRepo.js')
 
 const Register = async(avatarfile , userData,res)=>{
     const {firstName , email ,lastName , password,phone,city,flat,street,country,description,role,date} = userData
@@ -20,7 +21,7 @@ const Register = async(avatarfile , userData,res)=>{
         lastName,
         email,
         password : hash_pass,
-        avatar : avatarfile ? avatarfile.filename : "profile.jpg",
+        avatar : avatarfile ? avatarfile.dataUrl : "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPwA=", // Default base64 encoded blank image
         phone,
         city,
         flat,
@@ -77,19 +78,24 @@ const login = async(email,password,res)=>{
     throw new AppError("password or Email are incorrect!" , 500)
 }
 
-
-
-const forgetpassword = async(email)=>{
-    const user = await Repo.FindByEmail(email)
-    if(!user){
-        throw new AppError("user are not exist!" , 404)
-    }
-    user.generateResetPassToken()
-}
+const findUserByEmail = async (email) => {
+    return await userRepository.FindByEmail(email);
+  };
+  
+  const generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString(); // OTP من 6 أرقام
+  };
+  
+  const saveOTP = async (userId, otp, otpExpires) => {
+    return await userRepository.updateById(userId, { otp, otpExpires });
+  };
+  
 
 
 module.exports = {
     login,
     Register,
-    forgetpassword,
+    findUserByEmail,
+    generateOTP,
+    saveOTP
 }

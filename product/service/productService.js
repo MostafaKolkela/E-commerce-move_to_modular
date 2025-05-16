@@ -20,11 +20,11 @@ const getSingleProduct = async (id) => {
 }
 
 const addProduct = async (productData, files) => {
-    const filenames = []
-    files.forEach(el => {
-        filenames.push(el.filename)
+    const images = []
+    files.forEach(file => {
+        images.push(file.dataUrl) // Store the base64 data URL
     });
-    const newproduct = { ...productData, img: filenames }
+    const newproduct = { ...productData, img: images }
     await productRepo.saveProduct(newproduct)
     return newproduct
 }

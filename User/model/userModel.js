@@ -3,20 +3,20 @@ const crypto = require('crypto')
 const { type } = require('os')
 
 UserSchema = new mongoose.Schema({
+    
+    googleId: { type: String },
+
     firstName : {
         type : String,
-        required : true
     },
 
     lastName : {
         type : String,
-        required : true
     },
 
     email : {
         type : String,
         unique : true,
-        required : true,
     },
 
     role :{
@@ -27,12 +27,11 @@ UserSchema = new mongoose.Schema({
 
     password : {
         type : String,
-        required : true
     },
 
     avatar : {
         type : String,
-        default:'uploads/profile.jpg'
+        default: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPwA=' // Default base64 encoded blank image
     },
     
     token : {
@@ -85,7 +84,9 @@ UserSchema = new mongoose.Schema({
     date:{
         type:String,
         default:''
-    }
+    },
+    otp: String,
+    otpExpires: Date,
 })
 
 UserSchema.pre(/^find/ , function (next){

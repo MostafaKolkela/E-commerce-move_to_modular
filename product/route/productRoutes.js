@@ -4,11 +4,11 @@ const router = express.Router()
 const { redisCacheMiddleware } = require('../../middleware/redis');
 const verifyToken = require('../../middleware/verifyToken');
 const verifyRole = require('../../middleware/verifyRole');
-const uploads = require('../../middleware/multer')
+const { uploads, processUpload } = require('../../middleware/multer')
 const validateProduct = require('../../middleware/validateProduct')
 router.route('/')
     .get(redisCacheMiddleware(), productController.getAllProducts)
-    .post(verifyToken, verifyRole("seller", "admin"), uploads.array('img', 7), validateProduct, productController.addProduct)
+    .post(verifyToken, verifyRole("seller", "admin"), uploads.array('img', 7), processUpload, validateProduct, productController.addProduct)
 
 router.route('/statistics')
     .get(productController.statistics)
