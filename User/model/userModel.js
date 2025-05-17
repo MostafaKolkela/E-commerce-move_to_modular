@@ -31,7 +31,7 @@ UserSchema = new mongoose.Schema({
 
     avatar : {
         type : String,
-        default: 'uploads/profile.jpg'
+        default: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPwA='
     },
     
     token : {

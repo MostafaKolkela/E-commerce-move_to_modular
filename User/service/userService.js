@@ -26,19 +26,10 @@ const getSingleUser = async (id) => {
 
 const updateUser = async (Data, userId, file) => {
     if (file) {
-        Data.avatar = file.path.replace(/\\/g, '/') // Store file path
+        Data.avatar = file.base64  // Store base64 data
     }
     const fields = filterbody(Data, 'firstName', 'lastName', 'email', 'phone', 'city', 'street', 'flat', 'country', 'description', 'avatar','date')
-    const updatedUser = await userRepo.findUserByIdAndUpdate(userId, fields)
-    
-    // Return user with complete avatar URL
-    if (updatedUser.avatar) {
-        return {
-            ...updatedUser.toObject(),
-            avatar: file ? file.url : `${process.env.BASE_URL}/${updatedUser.avatar}`
-        }
-    }
-    return updatedUser
+    return await userRepo.findUserByIdAndUpdate(userId, fields)
 }
 
 const deleteUser = async (userId) => {

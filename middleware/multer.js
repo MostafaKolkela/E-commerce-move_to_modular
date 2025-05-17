@@ -1,18 +1,8 @@
 const multer = require('multer')
 const AppError = require('../utils/AppError')
-const path = require('path')
 
-// Configure multer disk storage
-const diskStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/')
-    },
-    filename: (req, file, cb) => {
-        const ext = file.mimetype.split('/')[1]
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, uniqueSuffix + '.' + ext)
-    }
-})
+// Use memory storage instead of disk storage
+const memoryStorage = multer.memoryStorage()
 
 const fileFilter = (req, file, cb) => {
     const type = file.mimetype.split('/')[0]
@@ -24,23 +14,22 @@ const fileFilter = (req, file, cb) => {
 }
 
 const uploads = multer({
-    storage: diskStorage,
+    storage: memoryStorage,
     fileFilter,
     limits: {
         fileSize: 5 * 1024 * 1024 // 5MB limit
     }
 })
 
-// Add file URL to the request
+// Convert file buffer to base64
 const processUpload = (req, res, next) => {
     if (!req.file && !req.files) {
         return next()
     }
 
-    const baseUrl = `${req.protocol}://${req.get('host')}/`
-
     const processFile = (file) => {
-        file.url = baseUrl + file.path.replace(/\\/g, '/')
+        const base64 = file.buffer.toString('base64')
+        file.base64 = `data:${file.mimetype};base64,${base64}`
     }
 
     if (req.file) {

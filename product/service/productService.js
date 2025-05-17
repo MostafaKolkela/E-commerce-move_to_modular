@@ -22,14 +22,11 @@ const getSingleProduct = async (id) => {
 const addProduct = async (productData, files) => {
     const images = []
     files.forEach(file => {
-        images.push(file.path.replace(/\\/g, '/')) // Store file path
+        images.push(file.base64) // Store base64 data
     });
     const newproduct = { ...productData, img: images }
     await productRepo.saveProduct(newproduct)
-    return {
-        ...newproduct,
-        img: files.map(file => file.url) // Return complete URLs
-    }
+    return newproduct
 }
 
 const updateProduct = async (id, updateData) => {
