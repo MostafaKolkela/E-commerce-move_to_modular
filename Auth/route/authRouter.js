@@ -31,8 +31,6 @@ router.get('/google',
 router.get('/google/callback',
   passport.authenticate('google', { session: false }),
   (req, res) => {
-    console.log('Google User:', req.user);
-
     const user = req.user;
     const jwt = require('jsonwebtoken');
     const token = jwt.sign({ id: req.user._id }, process.env.JWTSECRETKEY, {
