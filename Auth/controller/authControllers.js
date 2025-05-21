@@ -2,6 +2,7 @@ const authService = require('../service/authService.js')
 const catchAsync = require('../../utils/catchAsync')
 const sendEmail = require('../../utils/email.js')
 const userRepository = require('../repository/authRepo.js')
+const bcrypt = require("bcryptjs");
 
 const Register = catchAsync(async(req , res , next)=>{
     const {user,token} = await authService.Register(req.file , req.body,res)
@@ -58,7 +59,6 @@ const verifyOTP = async (req, res) => {
     }
   };
   
-  const bcrypt = require("bcryptjs");
 
 const resetPassword = async (req, res) => {
     try {

@@ -57,7 +57,9 @@ const addToCart = async(productId, quantity, userId, sellerId) => {
 
     if(item) {
         item.quantity += quantity;
-
+        if(item.discount){
+            item.price = product.price - (product.price * item.discount / 100);
+        }
         // ✅ لو مفيش تفاوض شغال، نحدث السعر
         if (!item.isNegotiated) {
             item.price = product.price;

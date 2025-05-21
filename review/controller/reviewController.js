@@ -4,6 +4,7 @@ const catchAsync = require('../../utils/catchAsync.js')
 const addReview = catchAsync(
     async (req, res) => {
         const { productId, message,rate } = req.body;
+        
         const result = await reviewService.addReview(req.user.id, productId, message,rate);
         res.status(201).json(result);
     }

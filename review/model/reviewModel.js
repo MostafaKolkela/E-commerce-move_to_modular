@@ -1,4 +1,3 @@
-const { required } = require('joi');
 const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
@@ -7,5 +6,7 @@ const reviewSchema = new mongoose.Schema({
   message: { type: String, required: true, minlength: 1, maxlength: 500 },
   rate:{type:Number,required:true}
 });
+
+reviewSchema.index({ userId: 1, productId: 1 }, { unique: true });
 
 module.exports = mongoose.model('Review', reviewSchema);

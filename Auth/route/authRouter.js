@@ -31,6 +31,9 @@ router.get('/google',
 router.get('/google/callback',
   passport.authenticate('google', { session: false }),
   (req, res) => {
+    console.log('Google User:', req.user);
+
+    const user = req.user;
     const jwt = require('jsonwebtoken');
     const token = jwt.sign({ id: req.user._id }, process.env.JWTSECRETKEY, {
       expiresIn: '1d'
@@ -40,7 +43,12 @@ router.get('/google/callback',
     res.json({
       success: true,
       msg: 'Login successful',
-      token
+      token,
+      user:{
+        name: user.firstName || '',         // لو عندك اسم
+    email: user.email || '',       // موجودة من قاعدة البيانات
+    photo: user.avatar || ''  
+      }
     });
   }
 );

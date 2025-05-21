@@ -13,5 +13,6 @@ const negotiationSchema = new mongoose.Schema({
     default: 'pending'
   }
 });
+negotiationSchema.index({ buyer: 1, product: 1 }, { unique: true });
 
 module.exports = mongoose.model('Negotiation', negotiationSchema);
