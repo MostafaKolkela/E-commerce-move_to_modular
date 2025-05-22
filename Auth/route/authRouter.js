@@ -41,7 +41,7 @@ router.get('/google/callback',
       firstName: user.firstName || '', 
       lastName: user.lastName || '',
       email: user.email || '', 
-      photo: user.avatar || ''
+      avatar: user.avatar || ''
     }));
 
     res.redirect(`http://localhost:5173?token=${token}&user=${userData}`);
