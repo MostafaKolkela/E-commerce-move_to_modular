@@ -36,18 +36,15 @@ router.get('/google/callback',
     const token = jwt.sign({ id: req.user._id }, process.env.JWTSECRETKEY, {
       expiresIn: '1d'
     });
-
     // ترجع التوكن في JSON بدل ما تعمل redirect
-    res.json({
-      success: true,
-      msg: 'Login successful',
-      token,
-      user:{
-        name: user.firstName || '',         // لو عندك اسم
-    email: user.email || '',       // موجودة من قاعدة البيانات
-    photo: user.avatar || ''  
-      }
-    });
+    const userData = encodeURIComponent(JSON.stringify({
+      firstName: user.firstName || '', 
+      lastName: user.lastName || '',
+      email: user.email || '', 
+      photo: user.avatar || ''
+    }));
+
+    res.redirect(`http://localhost:5173?token=${token}&user=${userData}`);
   }
 );
 
