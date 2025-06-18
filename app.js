@@ -18,7 +18,7 @@ require('./config/passport.js');
 const session = require('express-session');
 
 const rate = ratelimit({
-    max : 100,
+    max : 500,
     windowMs : 60 * 60 * 1000,
     message : 'There is too many requestes from this IP, Plz Try After one Hour'
 })

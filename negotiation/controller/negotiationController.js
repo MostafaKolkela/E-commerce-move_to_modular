@@ -1,4 +1,5 @@
 const negotiationService = require('../service/negotiationService.js');
+const catchAsync = require('../../utils/catchAsync');
 
 exports.makeOffer = async (req, res) => {
   try {
@@ -31,3 +32,34 @@ exports.respondToOffer = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.checkStatus = catchAsync(async (req, res) => {
+  const status = await negotiationService.checkNegotiationStatus(
+    req.user._id,
+    req.params.productId
+  );
+  res.status(200).json({
+    success: true,
+    data: status
+  });
+});
+
+exports.getNegotiationsByStatus = catchAsync(async (req, res) => {
+  const { status } = req.params;
+  
+  // التحقق من صحة الحالة المطلوبة
+  const validStatuses = ['pending', 'accepted', 'rejected', 'countered'];
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid status. Must be one of: ' + validStatuses.join(', ')
+    });
+  }
+
+  const result = await negotiationService.getNegotiationsByStatus(req.user._id, status);
+  
+  res.status(200).json({
+    success: true,
+    data: result
+  });
+});
