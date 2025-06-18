@@ -44,13 +44,7 @@ router.get('/google/callback',
       avatar: user.avatar || ''
     }));
 
-    res.json({
-      firstName: user.firstName || '', 
-      lastName: user.lastName || '',
-      email: user.email || '', 
-      avatar: user.avatar || ''
-    })
-    //.redirect(`http://localhost:5173?token=${token}&user=${userData}`);
+    res.redirect(`http://localhost:5173?token=${token}&user=${userData}`);
   }
 );
 
