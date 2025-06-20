@@ -76,6 +76,14 @@ const getSellerProfit = catchAsync(async (req, res, next) => {
     });
 });
 
+const getMyProducts = catchAsync(async (req, res, next) => {
+    const products = await productService.getProductsBySeller(req.user._id);
+    res.status(200).json({
+        status: "success",
+        data: products
+    });
+});
+
 module.exports = {
     getAllProducts,
     getSingleProduct,
@@ -84,5 +92,6 @@ module.exports = {
     DeleteProduct,
     statistics,
     searchProductsName,
-    getSellerProfit
+    getSellerProfit,
+    getMyProducts
 }

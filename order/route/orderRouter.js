@@ -10,6 +10,7 @@ router.route('/')
             .get(verifyToken,orderControllers.getUserOrders)
 router.route('/seller')
             .get(verifyToken,orderControllers.getSellerOrders)
-
+router.route('/my-orders')
+    .get(verifyToken, orderControllers.getOrdersBySellerToken);
 
 module.exports = router

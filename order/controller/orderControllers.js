@@ -35,8 +35,18 @@ const getSellerOrders = catchAsync(async(req,res,next)=>{
 
 })
 
+const getOrdersBySellerToken = catchAsync(async (req, res, next) => {
+    const sellerId = req.user._id;
+    const orders = await orederService.getOrdersBySellerToken(sellerId);
+    return res.json({
+        success: true,
+        data: orders
+    });
+});
+
 module.exports = {
     creatOrder,
     getUserOrders,
-    getSellerOrders
+    getSellerOrders,
+    getOrdersBySellerToken
 }

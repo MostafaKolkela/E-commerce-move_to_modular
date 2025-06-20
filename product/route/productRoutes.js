@@ -20,11 +20,13 @@ router.route('/search')
     .get(productController.searchProductsName);
 
 
+router.route('/my-products')
+    .get(verifyToken, productController.getMyProducts);
+
 router.route('/:id')
     .get(productController.getSingleProduct)
     .patch(verifyToken, verifyRole("seller", "admin"), productController.updateProduct)
     .delete(verifyToken, verifyRole("seller", "admin"), productController.DeleteProduct)
-
 
 module.exports = router;
 

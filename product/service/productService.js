@@ -54,6 +54,10 @@ const getSellerProfit = async (sellerId) => {
     return profit[0]?.totalProfit || 0;
 };
 
+const getProductsBySeller = async (sellerId) => {
+    return await productRepo.findProductsBySellerId(sellerId);
+};
+
 module.exports = {
     getAllProducts,
     getSingleProduct,
@@ -62,5 +66,6 @@ module.exports = {
     DeleteProduct,
     statistics,
     searchProductsByName,
-    getSellerProfit
+    getSellerProfit,
+    getProductsBySeller
 }

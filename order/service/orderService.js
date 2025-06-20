@@ -9,9 +9,18 @@ const creatOrder = async (shippingAddress, paymentMethod, userId) => {
     if (!cart) throw new AppError('your cart is empty!', 404);
 
     const totalPrice = cart.totalPrice;
+
+    // جهز عناصر الأوردر مع sellerId
+    const itemsWithSeller = cart.cartItem.map(item => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: item.price,
+        sellerId: item.sellerId // إضافة sellerId لكل عنصر
+    }));
+
     const order = {
         userId,
-        items: cart.cartItem,
+        items: itemsWithSeller,
         totalPrice,
         shippingAddress,
         paymentMethod
@@ -55,9 +64,6 @@ const creatOrder = async (shippingAddress, paymentMethod, userId) => {
     return order;
 };
 
-
-
-
 const getUserOrders = async(userId)=>{
     const orders = await orderRepo.getOrdersByid(userId)
     if(!orders) throw new AppError('no orders found' , 404)
@@ -70,8 +76,17 @@ const getSellerOrders = async(userId)=>{
     return orders
 }
 
+const getOrdersBySellerToken = async (sellerId) => {
+    // ابحث عن كل الأوردرات التي تحتوي منتجات للبائع الحالي
+    const orders = await Order.find({
+        'items': { $elemMatch: { sellerId: sellerId } }
+    });
+    return orders;
+};
+
 module.exports = {
     creatOrder,
     getUserOrders,
-    getSellerOrders
+    getSellerOrders,
+    getOrdersBySellerToken
 }

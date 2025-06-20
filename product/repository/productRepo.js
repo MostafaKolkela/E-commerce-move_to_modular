@@ -64,6 +64,10 @@ const getSellerProfit = async (sellerId) => {
     ]);
 };
 
+const findProductsBySellerId = async (sellerId) => {
+    return await Product.find({ sellerId });
+};
+
 module.exports = {
     findAllProducts,
     findProductById,
@@ -72,5 +76,6 @@ module.exports = {
     deleteProductById,
     getProductStatistics,
     findProductByName,
-    getSellerProfit
+    getSellerProfit,
+    findProductsBySellerId
 };

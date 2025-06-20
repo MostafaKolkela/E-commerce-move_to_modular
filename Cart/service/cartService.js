@@ -53,7 +53,11 @@ const addToCart = async(productId, quantity, userId, sellerId) => {
     const product = await CartRepo.FindProductById(productId);
     if(!product) throw new AppError('product not found', 404);
     
-    const item = cart.cartItem.find(item => item.productId.toString() === productId);
+    // مرونة في المقارنة بين productId في كل الحالات
+    const item = cart.cartItem.find(item => {
+        const id1 = item.productId && item.productId._id ? item.productId._id.toString() : item.productId.toString();
+        return id1 === product._id.toString();
+    });
 
     if(item) {
         item.quantity += quantity;
@@ -66,7 +70,7 @@ const addToCart = async(productId, quantity, userId, sellerId) => {
             item.originalPrice = product.price;
         }
     } else {
-        cart.cartItem.push({productId , quantity, price : product.price, sellerId})
+        cart.cartItem.push({productId: product._id, quantity, price: product.price, sellerId});
     }
 
     cart.totalPrice = totalprice(cart);
