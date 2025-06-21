@@ -114,11 +114,11 @@ const getNegotiationsByStatus = async (userId, status) => {
     })
     .populate({
       path: 'buyer',
-      select: 'firstName lastName email'
+      select: 'firstName lastName email avatar'
     })
     .populate({
       path: 'seller',
-      select: 'firstName lastName email'
+      select: 'firstName lastName email avatar'
     })
     .sort({ _id: -1 }); // Get newest first
 
@@ -133,17 +133,18 @@ const getNegotiationsByStatus = async (userId, status) => {
       counterPrice: neg.sellerCounterPrice,
       status: neg.status,
       date: neg._id.getTimestamp(),
-      ...(user.role === 'seller' ? {
-        buyer: {
-          name: `${neg.buyer.firstName} ${neg.buyer.lastName}`,
-          email: neg.buyer.email
-        }
-      } : {
-        seller: {
-          name: `${neg.seller.firstName} ${neg.seller.lastName}`,
-          email: neg.seller.email
-        }
-      })
+      buyer: {
+        id: neg.buyer._id,
+        name: `${neg.buyer.firstName} ${neg.buyer.lastName}`,
+        avatar: neg.buyer.avatar,
+        email: neg.buyer.email
+      },
+      seller: {
+        id: neg.seller._id,
+        name: `${neg.seller.firstName} ${neg.seller.lastName}`,
+        avatar: neg.seller.avatar,
+        email: neg.seller.email
+      }
     }))
   };
 };
