@@ -126,6 +126,7 @@ const getNegotiationsByStatus = async (userId, status) => {
     count: negotiations.length,
     negotiations: negotiations.map(neg => ({
       id: neg._id,
+      productId: neg.product._id,
       productName: neg.product.name,
       productImage: neg.product.img[0],
       originalPrice: neg.product.price,
