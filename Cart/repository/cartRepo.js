@@ -11,7 +11,8 @@ const createCart = async(userId)=>{
 }
 
 const FindProductById = async(id)=>{
-    return await Product.findById(id).select('price')
+    // جلب كل الحقول للتأكد من وصول الخصم
+    return await Product.findById(id);
 }
 
 const saveCart = async(cart)=>{
